@@ -292,7 +292,7 @@ abstract class GenerateNativePacksTask : DefaultTask() {
             isTransitive = false
         }
         val artifacts = configuration.resolvedConfiguration.resolvedArtifacts
-            .filter { artifact -> artifact.extension == "aar" }
+            .filter { artifact -> artifact.file.extension == "aar" }
             .sortedBy { artifact -> artifact.name }
 
         require(artifacts.size == this.artifacts.get().size) {
