@@ -17,7 +17,7 @@ dependencies {
     implementation(libs.snakeyaml)
 
     testImplementation(gradleTestKit())
-    testImplementation(kotlin("test"))
+    testImplementation(kotlin("test-junit5"))
 }
 
 tasks.withType<Test>().configureEach {
