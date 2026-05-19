@@ -12,9 +12,11 @@ dependencyResolutionManagement {
         mavenCentral()
         gradlePluginPortal()
     }
-    versionCatalogs {
-        create("libs") {
-            from(files("../gradle/libs.versions.toml"))
+    if (!file("gradle/libs.versions.toml").isFile) {
+        versionCatalogs {
+            create("libs") {
+                from(files("../gradle/libs.versions.toml"))
+            }
         }
     }
 }
