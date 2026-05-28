@@ -7,3 +7,7 @@ internal fun String.capitalized(): String {
 internal fun String.quoted(): String {
     return "\"${replace("\\", "\\\\").replace("\"", "\\\"")}\""
 }
+
+internal fun NativeLoadConfig.snapshotPath(): String {
+    return "${distribution.snapshotDirectory}/${pack.id}"
+}

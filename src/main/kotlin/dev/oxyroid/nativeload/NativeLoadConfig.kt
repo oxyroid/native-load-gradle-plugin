@@ -33,7 +33,3 @@ data class NativePackConfig(
     val libraries: List<String>,
     val loadOrder: List<String>
 )
-
-internal fun NativeLoadConfig.snapshotPath(): String {
-    return "${distribution.snapshotDirectory}/${pack.id}"
-}
