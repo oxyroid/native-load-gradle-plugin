@@ -1,4 +1,4 @@
-package dev.oxyroid.nativeload
+package dev.oxyroid.nativeload.instrumentation
 
 import com.android.build.api.instrumentation.AsmClassVisitorFactory
 import com.android.build.api.instrumentation.ClassContext
@@ -41,7 +41,7 @@ abstract class NativeLoadClassVisitorFactory : AsmClassVisitorFactory<NativeLoad
     }
 }
 
-private class NativeLoadClassVisitor(
+class NativeLoadClassVisitor(
     nextClassVisitor: ClassVisitor,
     private val redirectOwner: String,
     private val redirectMethod: String
@@ -55,36 +55,5 @@ private class NativeLoadClassVisitor(
     ): MethodVisitor {
         val visitor = super.visitMethod(access, name, descriptor, signature, exceptions)
         return NativeLoadMethodVisitor(visitor, redirectOwner, redirectMethod)
-    }
-}
-
-private class NativeLoadMethodVisitor(
-    methodVisitor: MethodVisitor,
-    private val redirectOwner: String,
-    private val redirectMethod: String
-) : MethodVisitor(Opcodes.ASM9, methodVisitor) {
-    override fun visitMethodInsn(
-        opcode: Int,
-        owner: String,
-        name: String,
-        descriptor: String,
-        isInterface: Boolean
-    ) {
-        if (
-            opcode == Opcodes.INVOKESTATIC &&
-            owner == "java/lang/System" &&
-            name == "loadLibrary" &&
-            descriptor == "(Ljava/lang/String;)V"
-        ) {
-            super.visitMethodInsn(
-                Opcodes.INVOKESTATIC,
-                redirectOwner,
-                redirectMethod,
-                "(Ljava/lang/String;)V",
-                false
-            )
-            return
-        }
-        super.visitMethodInsn(opcode, owner, name, descriptor, isInterface)
     }
 }

@@ -15,4 +15,11 @@ gradlePlugin {
 dependencies {
     implementation("com.android.tools.build:gradle-api:${libs.versions.android.gradle.plugin.get()}")
     implementation(libs.snakeyaml)
+
+    testImplementation(gradleTestKit())
+    testImplementation(kotlin("test-junit5"))
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }
