@@ -45,20 +45,23 @@ class NativeLoadPlugin : Plugin<Project> {
                     LibraryAndroidComponentsExtension::class.java
                 )
                 androidComponents.onVariants { variant ->
+                    val buildConfigFields = requireNotNull(variant.buildConfigFields) {
+                        "BuildConfig must be enabled for ${project.path}:${variant.name}."
+                    }
                     val enabled = variant.buildType == config.distribution.runtimeVariant
-                    variant.buildConfigFields.put(
+                    buildConfigFields.put(
                         "NATIVE_PACK_ID",
                         BuildConfigField("String", config.pack.id.quoted(), null)
                     )
-                    variant.buildConfigFields.put(
+                    buildConfigFields.put(
                         "NATIVE_PACK_MANIFEST_PREFIX",
                         BuildConfigField("String", config.pack.manifestPrefix.quoted(), null)
                     )
-                    variant.buildConfigFields.put(
+                    buildConfigFields.put(
                         "NATIVE_PACK_ENABLED",
                         BuildConfigField("boolean", enabled.toString(), null)
                     )
-                    variant.buildConfigFields.put(
+                    buildConfigFields.put(
                         "NATIVE_PACK_REPOSITORY",
                         BuildConfigField(
                             "String",
@@ -66,7 +69,7 @@ class NativeLoadPlugin : Plugin<Project> {
                             null
                         )
                     )
-                    variant.buildConfigFields.put(
+                    buildConfigFields.put(
                         "NATIVE_PACK_REF",
                         BuildConfigField(
                             "String",
@@ -74,7 +77,7 @@ class NativeLoadPlugin : Plugin<Project> {
                             null
                         )
                     )
-                    variant.buildConfigFields.put(
+                    buildConfigFields.put(
                         "NATIVE_PACK_SNAPSHOT_PATH",
                         BuildConfigField(
                             "String",
